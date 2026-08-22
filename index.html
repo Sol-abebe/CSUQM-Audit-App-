@@ -102,15 +102,6 @@
             margin-top: 20px;
         }
 
-        .sub-title {
-            background: var(--accent);
-            color: var(--primary);
-            padding: 10px 24px;
-            font-size: 0.95rem;
-            font-weight: 700;
-            border-bottom: 1px solid var(--border);
-        }
-
         .table-container { overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
         th { background-color: var(--secondary); color: white; padding: 10px 12px; text-align: left; font-weight: 600; }
@@ -132,24 +123,9 @@
             padding: 6px 8px;
             border-radius: 4px;
             display: inline-block;
-            min-width: 60px;
+            min-width: 50px;
             text-align: right;
         }
-
-        .checklist { padding: 16px 24px; display: flex; flex-direction: column; gap: 12px; }
-        .checklist-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 14px;
-            background: #F8FAFC;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            gap: 16px;
-        }
-        .checklist-item label { font-size: 0.9rem; font-weight: 500; }
-        .checklist-opts { display: flex; gap: 12px; min-width: 180px; }
-        .checklist-opts label { display: flex; align-items: center; gap: 4px; font-size: 0.85rem; cursor: pointer; }
 
         .btn-add {
             margin: 12px 24px;
@@ -192,7 +168,7 @@
 
 <div class="container">
     <header>
-        <h1>EKA KOTEBE  HOSPITAL</h1>
+        <h1>EKA KOTEBE HOSPITAL</h1>
         <h2>MEDICAL SERVICE FACILITATION DIRECTORATE</h2>
         <h3>CLOTHING SUPPLY, UTILIZATION AND QUALITY MONITORING DESK</h3>
     </header>
@@ -238,11 +214,11 @@
                     <tr>
                         <th>Item Description</th>
                         <th>Unit</th>
-                        <th style="width: 100px;">Opening Stock</th>
-                        <th style="width: 100px;">Received</th>
-                        <th style="width: 100px;">Consumed</th>
-                        <th style="width: 110px;">Current Balance</th>
-                        <th style="width: 100px;">Min Level</th>
+                        <th style="width: 90px;">Opening</th>
+                        <th style="width: 90px;">Received</th>
+                        <th style="width: 90px;">Consumed</th>
+                        <th style="width: 100px;">Balance</th>
+                        <th style="width: 90px;">Min Level</th>
                         <th>Condition / Expiry Check</th>
                     </tr>
                 </thead>
@@ -250,45 +226,45 @@
                     <tr>
                         <td><strong>Sodium Hypochlorite (Bleach 5%)</strong></td>
                         <td>Liters</td>
-                        <td><input type="number" class="opening" value="120" oninput="calcBalance(this)"></td>
-                        <td><input type="number" class="received" value="50" oninput="calcBalance(this)"></td>
-                        <td><input type="number" class="consumed" value="40" oninput="calcBalance(this)"></td>
+                        <td><input type="number" class="opening" value="120" oninput="calcChemBalance(this)"></td>
+                        <td><input type="number" class="received" value="50" oninput="calcChemBalance(this)"></td>
+                        <td><input type="number" class="consumed" value="40" oninput="calcChemBalance(this)"></td>
                         <td><span class="calc-val balance">130</span></td>
                         <td><input type="number" value="50"></td>
                         <td>
                             <select class="cond">
-                                <option value="Normal">[ ] Normal</option>
-                                <option value="Diluted/Expired">[ ] Diluted / Expired</option>
+                                <option value="Normal">Normal</option>
+                                <option value="Diluted/Expired">Diluted / Expired</option>
                             </select>
                         </td>
                     </tr>
                     <tr>
                         <td><strong>Powder Laundry Detergent</strong></td>
                         <td>Kg</td>
-                        <td><input type="number" class="opening" value="250" oninput="calcBalance(this)"></td>
-                        <td><input type="number" class="received" value="100" oninput="calcBalance(this)"></td>
-                        <td><input type="number" class="consumed" value="120" oninput="calcBalance(this)"></td>
+                        <td><input type="number" class="opening" value="250" oninput="calcChemBalance(this)"></td>
+                        <td><input type="number" class="received" value="100" oninput="calcChemBalance(this)"></td>
+                        <td><input type="number" class="consumed" value="120" oninput="calcChemBalance(this)"></td>
                         <td><span class="calc-val balance">230</span></td>
                         <td><input type="number" value="100"></td>
                         <td>
                             <select class="cond">
-                                <option value="Dry/Intact">[ ] Dry / Intact</option>
-                                <option value="Caked/Damaged">[ ] Caked / Damaged</option>
+                                <option value="Dry/Intact">Dry / Intact</option>
+                                <option value="Caked/Damaged">Caked / Damaged</option>
                             </select>
                         </td>
                     </tr>
                     <tr>
                         <td><strong>Liquid Heavy-Duty Detergent</strong></td>
                         <td>Liters</td>
-                        <td><input type="number" class="opening" value="80" oninput="calcBalance(this)"></td>
-                        <td><input type="number" class="received" value="0" oninput="calcBalance(this)"></td>
-                        <td><input type="number" class="consumed" value="25" oninput="calcBalance(this)"></td>
+                        <td><input type="number" class="opening" value="80" oninput="calcChemBalance(this)"></td>
+                        <td><input type="number" class="received" value="0" oninput="calcChemBalance(this)"></td>
+                        <td><input type="number" class="consumed" value="25" oninput="calcChemBalance(this)"></td>
                         <td><span class="calc-val balance">55</span></td>
                         <td><input type="number" value="30"></td>
                         <td>
                             <select class="cond">
-                                <option value="Sealed">[ ] Sealed</option>
-                                <option value="Leaking">[ ] Leaking</option>
+                                <option value="Sealed">Sealed</option>
+                                <option value="Leaking">Leaking</option>
                             </select>
                         </td>
                     </tr>
@@ -335,8 +311,80 @@
         </div>
         <button type="button" class="btn-add" onclick="addMachineRow()">+ Add Machine Row</button>
 
-        <!-- Section 3: Discrepancy Log -->
-        <div class="section-title">SECTION 3: DISCREPANCY & CORRECTIVE ACTION LOG</div>
+        <!-- Section 3: Hospital Linens Audit -->
+        <div class="section-title">SECTION 3: HOSPITAL LINEN INVENTORY & CIRCULATION AUDIT</div>
+        <div class="table-container">
+            <table id="linenTable">
+                <thead>
+                    <tr>
+                        <th>Linen Item Description</th>
+                        <th style="width: 80px;">Clean In-Stock</th>
+                        <th style="width: 80px;">In Wards</th>
+                        <th style="width: 80px;">Soiled / Laundry</th>
+                        <th style="width: 90px;">Total Physical</th>
+                        <th style="width: 80px;">Damaged</th>
+                        <th style="width: 80px;">Target Min</th>
+                        <th>Status / Quality Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Patient Bed Sheets (White)</strong></td>
+                        <td><input type="number" class="l-clean" value="300" oninput="calcLinenTotal(this)"></td>
+                        <td><input type="number" class="l-wards" value="450" oninput="calcLinenTotal(this)"></td>
+                        <td><input type="number" class="l-soiled" value="120" oninput="calcLinenTotal(this)"></td>
+                        <td><span class="calc-val l-total">870</span></td>
+                        <td><input type="number" class="l-damaged" value="15"></td>
+                        <td><input type="number" value="600"></td>
+                        <td><input type="text" value="Adequate stock; 15 torn needing condemned status"></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Patient Gowns (Blue/Standard)</strong></td>
+                        <td><input type="number" class="l-clean" value="180" oninput="calcLinenTotal(this)"></td>
+                        <td><input type="number" class="l-wards" value="220" oninput="calcLinenTotal(this)"></td>
+                        <td><input type="number" class="l-soiled" value="85" oninput="calcLinenTotal(this)"></td>
+                        <td><span class="calc-val l-total">485</span></td>
+                        <td><input type="number" class="l-damaged" value="8"></td>
+                        <td><input type="number" value="400"></td>
+                        <td><input type="text" value="Good operational balance"></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Surgical Drapes / OR Towels</strong></td>
+                        <td><input type="number" class="l-clean" value="90" oninput="calcLinenTotal(this)"></td>
+                        <td><input type="number" class="l-wards" value="110" oninput="calcLinenTotal(this)"></td>
+                        <td><input type="number" class="l-soiled" value="45" oninput="calcLinenTotal(this)"></td>
+                        <td><span class="calc-val l-total">245</span></td>
+                        <td><input type="number" class="l-damaged" value="5"></td>
+                        <td><input type="number" value="200"></td>
+                        <td><input type="text" value="Sterilization turn-around normal"></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Pillowcases (Cotton)</strong></td>
+                        <td><input type="number" class="l-clean" value="210" oninput="calcLinenTotal(this)"></td>
+                        <td><input type="number" class="l-wards" value="380" oninput="calcLinenTotal(this)"></td>
+                        <td><input type="number" class="l-soiled" value="95" oninput="calcLinenTotal(this)"></td>
+                        <td><span class="calc-val l-total">685</span></td>
+                        <td><input type="number" class="l-damaged" value="12"></td>
+                        <td><input type="number" value="500"></td>
+                        <td><input type="text" value="Minor discoloration noted on 10 units"></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Thermal Blankets</strong></td>
+                        <td><input type="number" class="l-clean" value="110" oninput="calcLinenTotal(this)"></td>
+                        <td><input type="number" class="l-wards" value="210" oninput="calcLinenTotal(this)"></td>
+                        <td><input type="number" class="l-soiled" value="30" oninput="calcLinenTotal(this)"></td>
+                        <td><span class="calc-val l-total">350</span></td>
+                        <td><input type="number" class="l-damaged" value="4"></td>
+                        <td><input type="number" value="300"></td>
+                        <td><input type="text" value="Sufficient supply for ICU & Recovery"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <button type="button" class="btn-add" onclick="addLinenRow()">+ Add Linen Item</button>
+
+        <!-- Section 4: Discrepancy Log -->
+        <div class="section-title">SECTION 4: DISCREPANCY & CORRECTIVE ACTION LOG</div>
         <div class="table-container">
             <table id="discrepancyTable">
                 <thead>
@@ -351,7 +399,27 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><select><option>Machine</option><option>Chemical</option></select></td>
+                        <td>
+                            <select>
+                                <option>Linen</option>
+                                <option>Machine</option>
+                                <option>Chemical</option>
+                            </select>
+                        </td>
+                        <td><input type="text" value="15 Bed Sheets torn beyond repair"></td>
+                        <td><input type="text" value="Frequent usage wear and heavy bleach wash cycles"></td>
+                        <td><input type="text" value="Move to condemned register & issue restocking requisition"></td>
+                        <td><input type="text" value="Linen Room Lead"></td>
+                        <td><input type="date" value="2026-08-26"></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select>
+                                <option selected>Machine</option>
+                                <option>Linen</option>
+                                <option>Chemical</option>
+                            </select>
+                        </td>
                         <td><input type="text" value="Washer #2 inlet valve leak"></td>
                         <td><input type="text" value="Worn rubber seal gasket"></td>
                         <td><input type="text" value="Issued maintenance request ticket"></td>
@@ -363,8 +431,8 @@
         </div>
         <button type="button" class="btn-add" onclick="addDiscrepancyRow()">+ Add Discrepancy Row</button>
 
-        <!-- Section 4: Sign-off -->
-        <div class="section-title">SECTION 4: DESK SIGN-OFF & APPROVALS</div>
+        <!-- Section 5: Sign-off -->
+        <div class="section-title">SECTION 5: DESK SIGN-OFF & APPROVALS</div>
         <footer>
             <div class="sign-box">
                 <h4>Audited By (In-Charge)</h4>
@@ -383,13 +451,22 @@
 </div>
 
 <script>
-    // Real-time calculated stock balance
-    function calcBalance(inputElem) {
+    // Real-time calculation for chemical balances
+    function calcChemBalance(inputElem) {
         const row = inputElem.closest('tr');
         const opening = parseFloat(row.querySelector('.opening').value) || 0;
         const received = parseFloat(row.querySelector('.received').value) || 0;
         const consumed = parseFloat(row.querySelector('.consumed').value) || 0;
         row.querySelector('.balance').textContent = opening + received - consumed;
+    }
+
+    // Real-time calculation for total physical linens (Clean + Wards + Soiled)
+    function calcLinenTotal(inputElem) {
+        const row = inputElem.closest('tr');
+        const clean = parseFloat(row.querySelector('.l-clean').value) || 0;
+        const wards = parseFloat(row.querySelector('.l-wards').value) || 0;
+        const soiled = parseFloat(row.querySelector('.l-soiled').value) || 0;
+        row.querySelector('.l-total').textContent = clean + wards + soiled;
     }
 
     function addMachineRow() {
@@ -417,11 +494,33 @@
         tbody.appendChild(newRow);
     }
 
+    function addLinenRow() {
+        const tbody = document.querySelectorAll('#linenTable tbody')[0];
+        const newRow = document.createElement('tr');
+        newRow.innerHTML = `
+            <td><input type="text" placeholder="Item description"></td>
+            <td><input type="number" class="l-clean" value="0" oninput="calcLinenTotal(this)"></td>
+            <td><input type="number" class="l-wards" value="0" oninput="calcLinenTotal(this)"></td>
+            <td><input type="number" class="l-soiled" value="0" oninput="calcLinenTotal(this)"></td>
+            <td><span class="calc-val l-total">0</span></td>
+            <td><input type="number" class="l-damaged" value="0"></td>
+            <td><input type="number" value="0"></td>
+            <td><input type="text" placeholder="Quality status / notes"></td>
+        `;
+        tbody.appendChild(newRow);
+    }
+
     function addDiscrepancyRow() {
         const tbody = document.querySelectorAll('#discrepancyTable tbody')[0];
         const newRow = document.createElement('tr');
         newRow.innerHTML = `
-            <td><select><option>Chemical</option><option>Machine</option></select></td>
+            <td>
+                <select>
+                    <option>Linen</option>
+                    <option>Chemical</option>
+                    <option>Machine</option>
+                </select>
+            </td>
             <td><input type="text" placeholder="Problem description"></td>
             <td><input type="text" placeholder="Root cause"></td>
             <td><input type="text" placeholder="Action taken"></td>
@@ -431,12 +530,12 @@
         tbody.appendChild(newRow);
     }
 
-    // CSV Export Generator Engine
+    // Export Engine (Updated for Linens Audit Export)
     function exportToCSV() {
         let csv = [];
         csv.push("EKA KOTEBE GENERAL HOSPITAL");
         csv.push("MEDICAL SERVICE FACILITATION DIRECTORATE - CLOTHING SUPPLY UTILIZATION AND QUALITY MONITORING DESK");
-        csv.push("INVENTORY & OPERATIONAL AUDIT TOOL: CHEMICAL SUPPLIES & LAUNDRY EQUIPMENT");
+        csv.push("INVENTORY & OPERATIONAL AUDIT TOOL: CHEMICALS, LAUNDRY EQUIPMENT & LINENS");
         csv.push("");
         csv.push(`Audit Date:,"${document.getElementById('auditDate').value}",Shift / Time:,"${document.getElementById('auditShift').value}",Auditor Name:,"${document.getElementById('auditorName').value}",Supervisor Sign:,"${document.getElementById('supervisorName').value}"`);
         csv.push("");
@@ -464,7 +563,22 @@
         });
         csv.push("");
 
-        csv.push("SECTION 3: DISCREPANCY & CORRECTIVE ACTION LOG");
+        csv.push("SECTION 3: HOSPITAL LINEN INVENTORY & CIRCULATION AUDIT");
+        csv.push("Linen Item Description,Clean In-Stock,In Wards,Soiled / Laundry Process,Total Physical Stock,Damaged / Condemned,Target Min Stock,Status / Quality Notes");
+        document.querySelectorAll('#linenTable tbody tr').forEach(row => {
+            const desc = row.cells[0].querySelector('strong') ? row.cells[0].querySelector('strong').innerText : row.cells[0].querySelector('input').value;
+            const clean = row.querySelector('.l-clean').value;
+            const wards = row.querySelector('.l-wards').value;
+            const soiled = row.querySelector('.l-soiled').value;
+            const total = row.querySelector('.l-total').textContent;
+            const damaged = row.querySelector('.l-damaged').value;
+            const min = row.cells[6].querySelector('input').value;
+            const notes = row.cells[7].querySelector('input').value;
+            csv.push(`"${desc}",${clean},${wards},${soiled},${total},${damaged},${min},"${notes}"`);
+        });
+        csv.push("");
+
+        csv.push("SECTION 4: DISCREPANCY & CORRECTIVE ACTION LOG");
         csv.push("Category,Identified Problem / Variance,Root Cause Analysis,Immediate Corrective Action,Assigned Person,Target Date");
         document.querySelectorAll('#discrepancyTable tbody tr').forEach(row => {
             const inputs = row.querySelectorAll('input, select');
@@ -472,7 +586,7 @@
         });
         csv.push("");
 
-        csv.push("SECTION 4: DESK SIGN-OFF & APPROVALS");
+        csv.push("SECTION 5: DESK SIGN-OFF & APPROVALS");
         csv.push(`Audited By (In-Charge):,"${document.getElementById('signAuditor').value}"`);
         csv.push(`Reviewed By (Desk Head):,"${document.getElementById('signHead').value}"`);
         csv.push(`Directorate Approval:,"${document.getElementById('signDir').value}"`);

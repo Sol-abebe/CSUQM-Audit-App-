@@ -1,0 +1,489 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSUQM Desk - Inventory Audit Web Tool</title>
+    <style>
+        :root {
+            --primary: #1B365D;
+            --secondary: #2C4D75;
+            --accent: #E8EEF5;
+            --border: #CBD5E1;
+            --text: #0F172A;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #F1F5F9;
+            color: var(--text);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 24px;
+            text-align: center;
+        }
+
+        header h1 { font-size: 1.5rem; margin-bottom: 6px; }
+        header h2 { font-size: 1rem; font-weight: 400; opacity: 0.9; margin-bottom: 4px; }
+        header h3 { font-size: 0.9rem; font-weight: 300; opacity: 0.8; }
+
+        .toolbar {
+            background: var(--accent);
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .btn-group { display: flex; gap: 10px; }
+
+        .btn {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn:hover { background-color: var(--primary); }
+        .btn-success { background-color: #059669; }
+        .btn-success:hover { background-color: #047857; }
+
+        .audit-meta {
+            padding: 20px 24px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+            background: #FAFAFA;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .form-group { display: flex; flex-direction: column; gap: 6px; }
+        .form-group label { font-size: 0.85rem; font-weight: 700; color: var(--secondary); }
+        .form-group input, .form-group select {
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .section-title {
+            background: var(--primary);
+            color: white;
+            padding: 12px 24px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-top: 20px;
+        }
+
+        .sub-title {
+            background: var(--accent);
+            color: var(--primary);
+            padding: 10px 24px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .table-container { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+        th { background-color: var(--secondary); color: white; padding: 10px 12px; text-align: left; font-weight: 600; }
+        td { padding: 8px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+        tr:nth-child(even) td { background-color: #F8FAFC; }
+
+        input[type="number"], input[type="text"], input[type="date"], select {
+            width: 100%;
+            padding: 6px 8px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 0.88rem;
+        }
+
+        .calc-val {
+            font-weight: bold;
+            color: var(--primary);
+            background: #E2E8F0;
+            padding: 6px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            min-width: 60px;
+            text-align: right;
+        }
+
+        .checklist { padding: 16px 24px; display: flex; flex-direction: column; gap: 12px; }
+        .checklist-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 14px;
+            background: #F8FAFC;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            gap: 16px;
+        }
+        .checklist-item label { font-size: 0.9rem; font-weight: 500; }
+        .checklist-opts { display: flex; gap: 12px; min-width: 180px; }
+        .checklist-opts label { display: flex; align-items: center; gap: 4px; font-size: 0.85rem; cursor: pointer; }
+
+        .btn-add {
+            margin: 12px 24px;
+            background: #3B82F6;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .btn-add:hover { background: #2563EB; }
+
+        footer {
+            padding: 24px;
+            background: #FAFAFA;
+            border-top: 1px solid var(--border);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .sign-box {
+            border: 1px dashed var(--border);
+            padding: 12px;
+            border-radius: 6px;
+            background: white;
+        }
+        .sign-box h4 { font-size: 0.85rem; color: var(--secondary); margin-bottom: 8px; }
+
+        @media print {
+            body { background: white; padding: 0; }
+            .toolbar, .btn-add { display: none; }
+            .container { box-shadow: none; border-radius: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>EKA KOTEBE  HOSPITAL</h1>
+        <h2>MEDICAL SERVICE FACILITATION DIRECTORATE</h2>
+        <h3>CLOTHING SUPPLY, UTILIZATION AND QUALITY MONITORING DESK</h3>
+    </header>
+
+    <div class="toolbar">
+        <strong style="color: var(--primary);">📋 Digital Inventory Audit Application</strong>
+        <div class="btn-group">
+            <button class="btn btn-success" onclick="exportToCSV()">📥 Export Complete CSV</button>
+            <button class="btn" onclick="window.print()">🖨️ Print / Save PDF</button>
+        </div>
+    </div>
+
+    <form id="auditForm">
+        <!-- Audit Meta Info -->
+        <div class="audit-meta">
+            <div class="form-group">
+                <label>Audit Date</label>
+                <input type="date" id="auditDate" value="2026-08-22">
+            </div>
+            <div class="form-group">
+                <label>Shift / Time</label>
+                <select id="auditShift">
+                    <option value="Morning">Morning Shift</option>
+                    <option value="Afternoon">Afternoon Shift</option>
+                    <option value="Night">Night Shift</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Auditor Name & Title</label>
+                <input type="text" id="auditorName" placeholder="Write Name of Auditor (In-Charge)">
+            </div>
+            <div class="form-group">
+                <label>Desk Supervisor</label>
+                <input type="text" id="supervisorName" placeholder="Desk Supervisor Sign-off">
+            </div>
+        </div>
+
+        <!-- Section 1: Chemical Inventory -->
+        <div class="section-title">SECTION 1: CHEMICAL INVENTORY CONTROL (BLEACH & DETERGENTS)</div>
+        <div class="table-container">
+            <table id="chemicalTable">
+                <thead>
+                    <tr>
+                        <th>Item Description</th>
+                        <th>Unit</th>
+                        <th style="width: 100px;">Opening Stock</th>
+                        <th style="width: 100px;">Received</th>
+                        <th style="width: 100px;">Consumed</th>
+                        <th style="width: 110px;">Current Balance</th>
+                        <th style="width: 100px;">Min Level</th>
+                        <th>Condition / Expiry Check</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Sodium Hypochlorite (Bleach 5%)</strong></td>
+                        <td>Liters</td>
+                        <td><input type="number" class="opening" value="120" oninput="calcBalance(this)"></td>
+                        <td><input type="number" class="received" value="50" oninput="calcBalance(this)"></td>
+                        <td><input type="number" class="consumed" value="40" oninput="calcBalance(this)"></td>
+                        <td><span class="calc-val balance">130</span></td>
+                        <td><input type="number" value="50"></td>
+                        <td>
+                            <select class="cond">
+                                <option value="Normal">[ ] Normal</option>
+                                <option value="Diluted/Expired">[ ] Diluted / Expired</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Powder Laundry Detergent</strong></td>
+                        <td>Kg</td>
+                        <td><input type="number" class="opening" value="250" oninput="calcBalance(this)"></td>
+                        <td><input type="number" class="received" value="100" oninput="calcBalance(this)"></td>
+                        <td><input type="number" class="consumed" value="120" oninput="calcBalance(this)"></td>
+                        <td><span class="calc-val balance">230</span></td>
+                        <td><input type="number" value="100"></td>
+                        <td>
+                            <select class="cond">
+                                <option value="Dry/Intact">[ ] Dry / Intact</option>
+                                <option value="Caked/Damaged">[ ] Caked / Damaged</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Liquid Heavy-Duty Detergent</strong></td>
+                        <td>Liters</td>
+                        <td><input type="number" class="opening" value="80" oninput="calcBalance(this)"></td>
+                        <td><input type="number" class="received" value="0" oninput="calcBalance(this)"></td>
+                        <td><input type="number" class="consumed" value="25" oninput="calcBalance(this)"></td>
+                        <td><span class="calc-val balance">55</span></td>
+                        <td><input type="number" value="30"></td>
+                        <td>
+                            <select class="cond">
+                                <option value="Sealed">[ ] Sealed</option>
+                                <option value="Leaking">[ ] Leaking</option>
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Section 2: Laundry Machinery Audit -->
+        <div class="section-title">SECTION 2: LAUNDRY MACHINERY & EQUIPMENT AUDIT</div>
+        <div class="table-container">
+            <table id="machineTable">
+                <thead>
+                    <tr>
+                        <th>Machine ID / Equipment</th>
+                        <th>Model / Capacity</th>
+                        <th>Operational Status</th>
+                        <th>Cleanliness Status</th>
+                        <th>Maintenance Due</th>
+                        <th>Key Issues / Observations</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="text" value="Washing Machine #1"></td>
+                        <td><input type="text" value="Unimac 50kg"></td>
+                        <td>
+                            <select class="m-status">
+                                <option value="Operational">Operational</option>
+                                <option value="Faulty">Faulty</option>
+                                <option value="Out of Service">Out of Service</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="m-clean">
+                                <option value="Clean">Clean</option>
+                                <option value="Residue">Residue</option>
+                            </select>
+                        </td>
+                        <td><input type="date" value="2026-09-15"></td>
+                        <td><input type="text" value="Normal operation"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <button type="button" class="btn-add" onclick="addMachineRow()">+ Add Machine Row</button>
+
+        <!-- Section 3: Discrepancy Log -->
+        <div class="section-title">SECTION 3: DISCREPANCY & CORRECTIVE ACTION LOG</div>
+        <div class="table-container">
+            <table id="discrepancyTable">
+                <thead>
+                    <tr>
+                        <th style="width: 120px;">Category</th>
+                        <th>Identified Problem / Variance</th>
+                        <th>Root Cause Analysis</th>
+                        <th>Immediate Corrective Action</th>
+                        <th style="width: 150px;">Assigned Person</th>
+                        <th style="width: 130px;">Target Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><select><option>Machine</option><option>Chemical</option></select></td>
+                        <td><input type="text" value="Washer #2 inlet valve leak"></td>
+                        <td><input type="text" value="Worn rubber seal gasket"></td>
+                        <td><input type="text" value="Issued maintenance request ticket"></td>
+                        <td><input type="text" value="Biomedical Team"></td>
+                        <td><input type="date" value="2026-08-25"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <button type="button" class="btn-add" onclick="addDiscrepancyRow()">+ Add Discrepancy Row</button>
+
+        <!-- Section 4: Sign-off -->
+        <div class="section-title">SECTION 4: DESK SIGN-OFF & APPROVALS</div>
+        <footer>
+            <div class="sign-box">
+                <h4>Audited By (In-Charge)</h4>
+                <div class="form-group"><input type="text" id="signAuditor" placeholder="Name & Signature"></div>
+            </div>
+            <div class="sign-box">
+                <h4>Reviewed By (Desk Head)</h4>
+                <div class="form-group"><input type="text" id="signHead" placeholder="Desk Head Signature"></div>
+            </div>
+            <div class="sign-box">
+                <h4>Directorate Approval</h4>
+                <div class="form-group"><input type="text" id="signDir" placeholder="Director Approval Signature"></div>
+            </div>
+        </footer>
+    </form>
+</div>
+
+<script>
+    // Real-time calculated stock balance
+    function calcBalance(inputElem) {
+        const row = inputElem.closest('tr');
+        const opening = parseFloat(row.querySelector('.opening').value) || 0;
+        const received = parseFloat(row.querySelector('.received').value) || 0;
+        const consumed = parseFloat(row.querySelector('.consumed').value) || 0;
+        row.querySelector('.balance').textContent = opening + received - consumed;
+    }
+
+    function addMachineRow() {
+        const tbody = document.querySelectorAll('#machineTable tbody')[0];
+        const newRow = document.createElement('tr');
+        newRow.innerHTML = `
+            <td><input type="text" placeholder="Machine Name"></td>
+            <td><input type="text" placeholder="Model/Cap"></td>
+            <td>
+                <select class="m-status">
+                    <option value="Operational">Operational</option>
+                    <option value="Faulty">Faulty</option>
+                    <option value="Out of Service">Out of Service</option>
+                </select>
+            </td>
+            <td>
+                <select class="m-clean">
+                    <option value="Clean">Clean</option>
+                    <option value="Residue">Residue</option>
+                </select>
+            </td>
+            <td><input type="date"></td>
+            <td><input type="text" placeholder="Observations"></td>
+        `;
+        tbody.appendChild(newRow);
+    }
+
+    function addDiscrepancyRow() {
+        const tbody = document.querySelectorAll('#discrepancyTable tbody')[0];
+        const newRow = document.createElement('tr');
+        newRow.innerHTML = `
+            <td><select><option>Chemical</option><option>Machine</option></select></td>
+            <td><input type="text" placeholder="Problem description"></td>
+            <td><input type="text" placeholder="Root cause"></td>
+            <td><input type="text" placeholder="Action taken"></td>
+            <td><input type="text" placeholder="Assigned staff"></td>
+            <td><input type="date"></td>
+        `;
+        tbody.appendChild(newRow);
+    }
+
+    // CSV Export Generator Engine
+    function exportToCSV() {
+        let csv = [];
+        csv.push("EKA KOTEBE GENERAL HOSPITAL");
+        csv.push("MEDICAL SERVICE FACILITATION DIRECTORATE - CLOTHING SUPPLY UTILIZATION AND QUALITY MONITORING DESK");
+        csv.push("INVENTORY & OPERATIONAL AUDIT TOOL: CHEMICAL SUPPLIES & LAUNDRY EQUIPMENT");
+        csv.push("");
+        csv.push(`Audit Date:,"${document.getElementById('auditDate').value}",Shift / Time:,"${document.getElementById('auditShift').value}",Auditor Name:,"${document.getElementById('auditorName').value}",Supervisor Sign:,"${document.getElementById('supervisorName').value}"`);
+        csv.push("");
+
+        csv.push("SECTION 1: CHEMICAL INVENTORY CONTROL (BLEACH & DETERGENTS)");
+        csv.push("Item Description,Unit,Opening Stock,Received,Consumed,Current Balance,Min Stock Level,Condition / Expiry Check");
+        document.querySelectorAll('#chemicalTable tbody tr').forEach(row => {
+            const desc = row.cells[0].innerText.trim();
+            const unit = row.cells[1].innerText.trim();
+            const opening = row.querySelector('.opening').value;
+            const rec = row.querySelector('.received').value;
+            const cons = row.querySelector('.consumed').value;
+            const bal = row.querySelector('.balance').textContent;
+            const min = row.cells[6].querySelector('input').value;
+            const cond = row.querySelector('.cond').value;
+            csv.push(`"${desc}","${unit}",${opening},${rec},${cons},${bal},${min},"${cond}"`);
+        });
+        csv.push("");
+
+        csv.push("SECTION 2: LAUNDRY MACHINERY & EQUIPMENT AUDIT");
+        csv.push("Machine ID / Equipment,Model / Capacity,Operational Status,Cleanliness Status,Maintenance Due,Key Issues / Observations");
+        document.querySelectorAll('#machineTable tbody tr').forEach(row => {
+            const inputs = row.querySelectorAll('input, select');
+            csv.push(`"${inputs[0].value}","${inputs[1].value}","${inputs[2].value}","${inputs[3].value}","${inputs[4].value}","${inputs[5].value}"`);
+        });
+        csv.push("");
+
+        csv.push("SECTION 3: DISCREPANCY & CORRECTIVE ACTION LOG");
+        csv.push("Category,Identified Problem / Variance,Root Cause Analysis,Immediate Corrective Action,Assigned Person,Target Date");
+        document.querySelectorAll('#discrepancyTable tbody tr').forEach(row => {
+            const inputs = row.querySelectorAll('input, select');
+            csv.push(`"${inputs[0].value}","${inputs[1].value}","${inputs[2].value}","${inputs[3].value}","${inputs[4].value}","${inputs[5].value}"`);
+        });
+        csv.push("");
+
+        csv.push("SECTION 4: DESK SIGN-OFF & APPROVALS");
+        csv.push(`Audited By (In-Charge):,"${document.getElementById('signAuditor').value}"`);
+        csv.push(`Reviewed By (Desk Head):,"${document.getElementById('signHead').value}"`);
+        csv.push(`Directorate Approval:,"${document.getElementById('signDir').value}"`);
+
+        const blob = new Blob([csv.join("\n")], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = `Eka_Kotebe_Inventory_Audit_${document.getElementById('auditDate').value}.csv`;
+        link.click();
+    }
+</script>
+
+</body>
+</html>

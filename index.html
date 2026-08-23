@@ -78,7 +78,7 @@
         .audit-meta {
             padding: 20px 24px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 16px;
             background: #FAFAFA;
             border-bottom: 1px solid var(--border);
@@ -170,11 +170,12 @@
     <header>
         <h1>EKA KOTEBE HOSPITAL</h1>
         <h2>MEDICAL SERVICE FACILITATION DIRECTORATE</h2>
-        <h3>CLOTHING SUPPLY, UTILIZATION AND QUALITY MONITORING DESK</h3>
+        <h3>CLOTHING SUPPLY, UTILIZATION AND QUALITY MONITORING DESK</h3><br>
+      <h3><strong>QUARTERLY INVENTORY AUDIT</strong></h3>
     </header>
 
     <div class="toolbar">
-        <strong style="color: var(--primary);">📋 Digital Inventory Audit Application</strong>
+        <strong style="color: var(--primary);">📋 Quarterly Digital Inventory Audit Application</strong>
         <div class="btn-group">
             <button class="btn btn-success" onclick="exportToCSV()">📥 Export Complete CSV</button>
             <button class="btn" onclick="window.print()">🖨️ Print / Save PDF</button>
@@ -185,8 +186,12 @@
         <!-- Audit Meta Info -->
         <div class="audit-meta">
             <div class="form-group">
-                <label>Audit Date</label>
-                <input type="date" id="auditDate" value="2026-08-22">
+                <label>Audit Date (Gregorian / G.C.)</label>
+                <input type="date" id="auditDate" value="2026-08-22" onchange="syncEthiopianDate()">
+            </div>
+            <div class="form-group">
+                <label>Audit Date (Ethiopian Calendar / E.C.)</label>
+                <input type="text" id="auditDateEC" value="16 Nahase 2018 E.C." placeholder="e.g., 16 Nahase 2018 E.C.">
             </div>
             <div class="form-group">
                 <label>Shift / Time</label>
@@ -207,18 +212,18 @@
         </div>
 
         <!-- Section 1: Chemical Inventory -->
-        <div class="section-title">SECTION 1: CHEMICAL INVENTORY CONTROL (BLEACH & DETERGENTS)</div>
+        <div class="section-title">SECTION 1: CHEMICAL & DETERGENTS INVENTORY AUDIT</div>
         <div class="table-container">
             <table id="chemicalTable">
                 <thead>
                     <tr>
                         <th>Item Description</th>
-                        <th>Unit</th>
+                        <th style="width: 100px;">Unit</th>
                         <th style="width: 90px;">Opening</th>
                         <th style="width: 90px;">Received</th>
                         <th style="width: 90px;">Consumed</th>
                         <th style="width: 100px;">Balance</th>
-                        <th style="width: 90px;">Min Level</th>
+                        <th style="width: 90px;">Min Stock</th>
                         <th>Condition / Expiry Check</th>
                     </tr>
                 </thead>
@@ -234,12 +239,12 @@
                         <td>
                             <select class="cond">
                                 <option value="Normal">Normal</option>
-                                <option value="Diluted/Expired">Diluted / Expired</option>
+                                <option value="Diluted/Expired">Expired</option>
                             </select>
                         </td>
                     </tr>
                     <tr>
-                        <td><strong>Powder Laundry Detergent</strong></td>
+                        <td><strong>Powder Soaps</strong></td>
                         <td>Kg</td>
                         <td><input type="number" class="opening" value="250" oninput="calcChemBalance(this)"></td>
                         <td><input type="number" class="received" value="100" oninput="calcChemBalance(this)"></td>
@@ -254,7 +259,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><strong>Liquid Heavy-Duty Detergent</strong></td>
+                        <td><strong>Liquid Soaps</strong></td>
                         <td>Liters</td>
                         <td><input type="number" class="opening" value="80" oninput="calcChemBalance(this)"></td>
                         <td><input type="number" class="received" value="0" oninput="calcChemBalance(this)"></td>
@@ -271,9 +276,10 @@
                 </tbody>
             </table>
         </div>
+        <button type="button" class="btn-add" onclick="addChemicalRow()">+ Add Chemical Row</button>
 
         <!-- Section 2: Laundry Machinery Audit -->
-        <div class="section-title">SECTION 2: LAUNDRY MACHINERY & EQUIPMENT AUDIT</div>
+        <div class="section-title">SECTION 2: LAUNDRY MACHINES INVENTORY AUDIT</div>
         <div class="table-container">
             <table id="machineTable">
                 <thead>
@@ -312,7 +318,7 @@
         <button type="button" class="btn-add" onclick="addMachineRow()">+ Add Machine Row</button>
 
         <!-- Section 3: Hospital Linens Audit -->
-        <div class="section-title">SECTION 3: HOSPITAL LINEN INVENTORY & CIRCULATION AUDIT</div>
+        <div class="section-title">SECTION 3: HOSPITAL LINEN & CIRCULATION INVENTORY AUDIT</div>
         <div class="table-container">
             <table id="linenTable">
                 <thead>
@@ -323,13 +329,13 @@
                         <th style="width: 80px;">Soiled / Laundry</th>
                         <th style="width: 90px;">Total Physical</th>
                         <th style="width: 80px;">Damaged</th>
-                        <th style="width: 80px;">Target Min</th>
+                        <th style="width: 80px;">Min Stock</th>
                         <th>Status / Quality Notes</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td><strong>Patient Bed Sheets (White)</strong></td>
+                        <td><strong> Bed Sheets</strong></td>
                         <td><input type="number" class="l-clean" value="300" oninput="calcLinenTotal(this)"></td>
                         <td><input type="number" class="l-wards" value="450" oninput="calcLinenTotal(this)"></td>
                         <td><input type="number" class="l-soiled" value="120" oninput="calcLinenTotal(this)"></td>
@@ -339,7 +345,7 @@
                         <td><input type="text" value="Adequate stock; 15 torn needing condemned status"></td>
                     </tr>
                     <tr>
-                        <td><strong>Patient Gowns (Blue/Standard)</strong></td>
+                        <td><strong>Patient Pyjamas</strong></td>
                         <td><input type="number" class="l-clean" value="180" oninput="calcLinenTotal(this)"></td>
                         <td><input type="number" class="l-wards" value="220" oninput="calcLinenTotal(this)"></td>
                         <td><input type="number" class="l-soiled" value="85" oninput="calcLinenTotal(this)"></td>
@@ -348,28 +354,9 @@
                         <td><input type="number" value="400"></td>
                         <td><input type="text" value="Good operational balance"></td>
                     </tr>
+                    
                     <tr>
-                        <td><strong>Surgical Drapes / OR Towels</strong></td>
-                        <td><input type="number" class="l-clean" value="90" oninput="calcLinenTotal(this)"></td>
-                        <td><input type="number" class="l-wards" value="110" oninput="calcLinenTotal(this)"></td>
-                        <td><input type="number" class="l-soiled" value="45" oninput="calcLinenTotal(this)"></td>
-                        <td><span class="calc-val l-total">245</span></td>
-                        <td><input type="number" class="l-damaged" value="5"></td>
-                        <td><input type="number" value="200"></td>
-                        <td><input type="text" value="Sterilization turn-around normal"></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Pillowcases (Cotton)</strong></td>
-                        <td><input type="number" class="l-clean" value="210" oninput="calcLinenTotal(this)"></td>
-                        <td><input type="number" class="l-wards" value="380" oninput="calcLinenTotal(this)"></td>
-                        <td><input type="number" class="l-soiled" value="95" oninput="calcLinenTotal(this)"></td>
-                        <td><span class="calc-val l-total">685</span></td>
-                        <td><input type="number" class="l-damaged" value="12"></td>
-                        <td><input type="number" value="500"></td>
-                        <td><input type="text" value="Minor discoloration noted on 10 units"></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Thermal Blankets</strong></td>
+                        <td><strong>Blankets</strong></td>
                         <td><input type="number" class="l-clean" value="110" oninput="calcLinenTotal(this)"></td>
                         <td><input type="number" class="l-wards" value="210" oninput="calcLinenTotal(this)"></td>
                         <td><input type="number" class="l-soiled" value="30" oninput="calcLinenTotal(this)"></td>
@@ -451,6 +438,53 @@
 </div>
 
 <script>
+    const ecMonths = ["Meskerem", "Tikimt", "Hidar", "Tahsas", "Tir", "Yekatit", "Megabit", "Miyazia", "Ginbot", "Sene", "Hamle", "Nahase", "Pagume"];
+
+    // Conversion helper from Gregorian Date to Ethiopian Calendar
+    function convertGCToEC(gcDateStr) {
+        if (!gcDateStr) return "";
+        const date = new Date(gcDateStr);
+        if (isNaN(date.getTime())) return "";
+
+        let year = date.getFullYear();
+        let month = date.getMonth() + 1;
+        let day = date.getDate();
+
+        let ecYear = year - 8;
+        let ecMonth = 0;
+        let ecDay = 0;
+
+        const isLeap = (year % 4 === 0);
+        const newYearDay = isLeap ? 12 : 11;
+
+        if (month > 9 || (month === 9 && day >= newYearDay)) {
+            ecYear = year - 7;
+        }
+
+        const newYearDate = new Date(year, 8, newYearDay);
+        if (date < newYearDate) {
+            const prevNewYear = new Date(year - 1, 8, (year - 1) % 4 === 0 ? 12 : 11);
+            const diffDays = Math.floor((date - prevNewYear) / (1000 * 60 * 60 * 24));
+            ecMonth = Math.floor(diffDays / 30);
+            ecDay = (diffDays % 30) + 1;
+        } else {
+            const diffDays = Math.floor((date - newYearDate) / (1000 * 60 * 60 * 24));
+            ecMonth = Math.floor(diffDays / 30);
+            ecDay = (diffDays % 30) + 1;
+        }
+
+        const monthName = ecMonths[ecMonth] || ecMonths[0];
+        return `${ecDay} ${monthName} ${ecYear} E.C.`;
+    }
+
+    function syncEthiopianDate() {
+        const gcVal = document.getElementById('auditDate').value;
+        const ecVal = convertGCToEC(gcVal);
+        if (ecVal) {
+            document.getElementById('auditDateEC').value = ecVal;
+        }
+    }
+
     // Real-time calculation for chemical balances
     function calcChemBalance(inputElem) {
         const row = inputElem.closest('tr');
@@ -460,13 +494,36 @@
         row.querySelector('.balance').textContent = opening + received - consumed;
     }
 
-    // Real-time calculation for total physical linens (Clean + Wards + Soiled)
+    // Real-time calculation for total physical linens
     function calcLinenTotal(inputElem) {
         const row = inputElem.closest('tr');
         const clean = parseFloat(row.querySelector('.l-clean').value) || 0;
         const wards = parseFloat(row.querySelector('.l-wards').value) || 0;
         const soiled = parseFloat(row.querySelector('.l-soiled').value) || 0;
         row.querySelector('.l-total').textContent = clean + wards + soiled;
+    }
+
+    function addChemicalRow() {
+        const tbody = document.querySelectorAll('#chemicalTable tbody')[0];
+        const newRow = document.createElement('tr');
+        newRow.innerHTML = `
+            <td><input type="text" placeholder="Chemical Name / Description"></td>
+            <td><input type="text" placeholder="e.g., Liters, Kg"></td>
+            <td><input type="number" class="opening" value="0" oninput="calcChemBalance(this)"></td>
+            <td><input type="number" class="received" value="0" oninput="calcChemBalance(this)"></td>
+            <td><input type="number" class="consumed" value="0" oninput="calcChemBalance(this)"></td>
+            <td><span class="calc-val balance">0</span></td>
+            <td><input type="number" value="0"></td>
+            <td>
+                <select class="cond">
+                    <option value="Normal">Normal</option>
+                    <option value="Diluted/Expired">Diluted / Expired</option>
+                    <option value="Caked/Damaged">Caked / Damaged</option>
+                    <option value="Leaking">Leaking</option>
+                </select>
+            </td>
+        `;
+        tbody.appendChild(newRow);
     }
 
     function addMachineRow() {
@@ -530,21 +587,22 @@
         tbody.appendChild(newRow);
     }
 
-    // Export Engine (Updated for Linens Audit Export)
+    // Export Engine
     function exportToCSV() {
         let csv = [];
-        csv.push("EKA KOTEBE GENERAL HOSPITAL");
+        csv.push("EKA KOTEBE HOSPITAL");
         csv.push("MEDICAL SERVICE FACILITATION DIRECTORATE - CLOTHING SUPPLY UTILIZATION AND QUALITY MONITORING DESK");
-        csv.push("INVENTORY & OPERATIONAL AUDIT TOOL: CHEMICALS, LAUNDRY EQUIPMENT & LINENS");
-        csv.push("");
-        csv.push(`Audit Date:,"${document.getElementById('auditDate').value}",Shift / Time:,"${document.getElementById('auditShift').value}",Auditor Name:,"${document.getElementById('auditorName').value}",Supervisor Sign:,"${document.getElementById('supervisorName').value}"`);
+        csv.push("INVENTORY AUDIT OPERATIONAL TOOL: CHEMICALS, LAUNDRY MACHINES & LINENS");
+      csv.push("QUARTERLY INVENTORY AUDIT");
+      csv.push("");
+        csv.push(`Audit Date (G.C.):,"${document.getElementById('auditDate').value}",Audit Date (E.C.):,"${document.getElementById('auditDateEC').value}",Shift / Time:,"${document.getElementById('auditShift').value}",Auditor Name:,"${document.getElementById('auditorName').value}",Supervisor Sign:,"${document.getElementById('supervisorName').value}"`);
         csv.push("");
 
-        csv.push("SECTION 1: CHEMICAL INVENTORY CONTROL (BLEACH & DETERGENTS)");
+        csv.push("SECTION 1: CHEMICAL & DETERGENTS INVENTORY AUDIT");
         csv.push("Item Description,Unit,Opening Stock,Received,Consumed,Current Balance,Min Stock Level,Condition / Expiry Check");
         document.querySelectorAll('#chemicalTable tbody tr').forEach(row => {
-            const desc = row.cells[0].innerText.trim();
-            const unit = row.cells[1].innerText.trim();
+            const desc = row.cells[0].querySelector('strong') ? row.cells[0].querySelector('strong').innerText : row.cells[0].querySelector('input').value;
+            const unit = row.cells[1].querySelector('input') ? row.cells[1].querySelector('input').value : row.cells[1].innerText.trim();
             const opening = row.querySelector('.opening').value;
             const rec = row.querySelector('.received').value;
             const cons = row.querySelector('.consumed').value;
@@ -555,7 +613,7 @@
         });
         csv.push("");
 
-        csv.push("SECTION 2: LAUNDRY MACHINERY & EQUIPMENT AUDIT");
+        csv.push("SECTION 2: LAUNDRY MACHINES INVENTORY AUDIT");
         csv.push("Machine ID / Equipment,Model / Capacity,Operational Status,Cleanliness Status,Maintenance Due,Key Issues / Observations");
         document.querySelectorAll('#machineTable tbody tr').forEach(row => {
             const inputs = row.querySelectorAll('input, select');
@@ -563,8 +621,8 @@
         });
         csv.push("");
 
-        csv.push("SECTION 3: HOSPITAL LINEN INVENTORY & CIRCULATION AUDIT");
-        csv.push("Linen Item Description,Clean In-Stock,In Wards,Soiled / Laundry Process,Total Physical Stock,Damaged / Condemned,Target Min Stock,Status / Quality Notes");
+        csv.push("SECTION 3: HOSPITAL LINEN & CIRCULATION INVENTORY AUDIT");
+        csv.push("Linen Item Description,Clean In-Stock,In Wards,Soiled / Laundry Process,Total Physical Stock,Damaged / Condemned, Min Stock,Status / Quality Notes");
         document.querySelectorAll('#linenTable tbody tr').forEach(row => {
             const desc = row.cells[0].querySelector('strong') ? row.cells[0].querySelector('strong').innerText : row.cells[0].querySelector('input').value;
             const clean = row.querySelector('.l-clean').value;
@@ -597,6 +655,8 @@
         link.download = `Eka_Kotebe_Inventory_Audit_${document.getElementById('auditDate').value}.csv`;
         link.click();
     }
+
+    window.onload = syncEthiopianDate;
 </script>
 
 </body>

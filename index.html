@@ -23,7 +23,7 @@
         body {
             background-color: #F1F5F9;
             color: var(--text);
-            padding: 20px;
+            padding: 12px;
         }
 
         .container {
@@ -38,37 +38,52 @@
         header {
             background-color: var(--primary);
             color: white;
-            padding: 24px;
+            padding: 16px 12px;
             text-align: center;
         }
 
-        header h1 { font-size: 1.5rem; margin-bottom: 6px; }
-        header h2 { font-size: 1rem; font-weight: 400; opacity: 0.9; margin-bottom: 4px; }
-        header h3 { font-size: 0.9rem; font-weight: 300; opacity: 0.8; }
+        header h1 { font-size: 1.25rem; margin-bottom: 4px; }
+        header h2 { font-size: 0.9rem; font-weight: 400; opacity: 0.9; margin-bottom: 4px; }
+        header h3 { font-size: 0.82rem; font-weight: 300; opacity: 0.85; }
 
         .toolbar {
             background: var(--accent);
-            padding: 16px 24px;
+            padding: 12px 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid var(--border);
             flex-wrap: wrap;
-            gap: 12px;
+            gap: 10px;
         }
 
-        .btn-group { display: flex; gap: 10px; }
+        .btn-group { 
+            display: flex; 
+            gap: 8px; 
+            width: 100%;
+        }
+
+        @media (min-width: 600px) {
+            body { padding: 20px; }
+            header { padding: 24px; }
+            header h1 { font-size: 1.5rem; }
+            header h2 { font-size: 1rem; }
+            header h3 { font-size: 0.9rem; }
+            .btn-group { width: auto; }
+        }
 
         .btn {
+            flex: 1;
             background-color: var(--secondary);
             color: white;
             border: none;
-            padding: 10px 18px;
+            padding: 10px 14px;
             border-radius: 6px;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             cursor: pointer;
             transition: background 0.2s;
+            text-align: center;
         }
 
         .btn:hover { background-color: var(--primary); }
@@ -76,44 +91,69 @@
         .btn-success:hover { background-color: #047857; }
 
         .audit-meta {
-            padding: 20px 24px;
+            padding: 16px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 16px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
             background: #FAFAFA;
             border-bottom: 1px solid var(--border);
         }
 
-        .form-group { display: flex; flex-direction: column; gap: 6px; }
-        .form-group label { font-size: 0.85rem; font-weight: 700; color: var(--secondary); }
+        .form-group { display: flex; flex-direction: column; gap: 4px; }
+        .form-group label { font-size: 0.8rem; font-weight: 700; color: var(--secondary); }
         .form-group input, .form-group select {
-            padding: 8px 12px;
+            padding: 8px 10px;
             border: 1px solid var(--border);
             border-radius: 4px;
-            font-size: 0.9rem;
+            font-size: 0.88rem;
         }
 
         .section-title {
             background: var(--primary);
             color: white;
-            padding: 12px 24px;
-            font-size: 1.05rem;
+            padding: 10px 16px;
+            font-size: 0.95rem;
             font-weight: 600;
-            margin-top: 20px;
+            margin-top: 15px;
         }
 
-        .table-container { overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
-        th { background-color: var(--secondary); color: white; padding: 10px 12px; text-align: left; font-weight: 600; }
-        td { padding: 8px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+        /* Responsive Mobile Table Styles */
+        .table-container { 
+            overflow-x: auto; 
+            -webkit-overflow-scrolling: touch;
+            border-bottom: 1px solid var(--border);
+        }
+
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            font-size: 0.85rem; 
+            white-space: nowrap;
+        }
+
+        th { 
+            background-color: var(--secondary); 
+            color: white; 
+            padding: 10px 8px; 
+            text-align: left; 
+            font-weight: 600; 
+        }
+
+        td { 
+            padding: 6px 8px; 
+            border-bottom: 1px solid var(--border); 
+            vertical-align: middle; 
+        }
+
         tr:nth-child(even) td { background-color: #F8FAFC; }
 
         input[type="number"], input[type="text"], input[type="date"], select {
             width: 100%;
-            padding: 6px 8px;
+            padding: 8px;
             border: 1px solid var(--border);
             border-radius: 4px;
             font-size: 0.88rem;
+            box-sizing: border-box;
         }
 
         .calc-val {
@@ -123,16 +163,16 @@
             padding: 6px 8px;
             border-radius: 4px;
             display: inline-block;
-            min-width: 50px;
+            min-width: 60px;
             text-align: right;
         }
 
         .btn-add {
-            margin: 12px 24px;
+            margin: 12px 16px;
             background: #3B82F6;
             color: white;
             border: none;
-            padding: 8px 14px;
+            padding: 10px 16px;
             border-radius: 4px;
             cursor: pointer;
             font-size: 0.85rem;
@@ -141,12 +181,12 @@
         .btn-add:hover { background: #2563EB; }
 
         footer {
-            padding: 24px;
+            padding: 16px;
             background: #FAFAFA;
             border-top: 1px solid var(--border);
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
         }
 
         .sign-box {
@@ -161,6 +201,8 @@
             body { background: white; padding: 0; }
             .toolbar, .btn-add { display: none; }
             .container { box-shadow: none; border-radius: 0; }
+            .table-container { overflow-x: visible; }
+            table { white-space: normal; }
         }
     </style>
 </head>
@@ -171,14 +213,14 @@
         <h1>EKA KOTEBE HOSPITAL</h1>
         <h2>MEDICAL SERVICE FACILITATION DIRECTORATE</h2>
         <h3>CLOTHING SUPPLY, UTILIZATION AND QUALITY MONITORING DESK</h3><br>
-      <h3><strong>QUARTERLY INVENTORY AUDIT</strong></h3>
+        <h3><strong>QUARTERLY INVENTORY AUDIT</strong></h3>
     </header>
 
     <div class="toolbar">
-        <strong style="color: var(--primary);">📋 Quarterly Digital Inventory Audit Application</strong>
+        <strong style="color: var(--primary); font-size: 0.9rem;">📋 Quarterly Digital Inventory Audit</strong>
         <div class="btn-group">
-            <button class="btn btn-success" onclick="exportToCSV()">📥 Export Complete CSV</button>
-            <button class="btn" onclick="window.print()">🖨️ Print / Save PDF</button>
+            <button class="btn btn-success" onclick="exportToCSV()">📥 Export CSV</button>
+            <button class="btn" onclick="window.print()">🖨️ Print / PDF</button>
         </div>
     </div>
 
@@ -187,11 +229,11 @@
         <div class="audit-meta">
             <div class="form-group">
                 <label>Audit Date (Gregorian / G.C.)</label>
-                <input type="date" id="auditDate" value="2026-08-22" onchange="syncEthiopianDate()">
+                <input type="date" id="auditDate" value="2026-08-23" onchange="syncEthiopianDate()">
             </div>
             <div class="form-group">
                 <label>Audit Date (Ethiopian Calendar / E.C.)</label>
-                <input type="text" id="auditDateEC" value="16 Nahase 2018 E.C." placeholder="e.g., 16 Nahase 2018 E.C.">
+                <input type="text" id="auditDateEC" value="17 Nehase 2018 E.C." placeholder="e.g., 17 Nahase 2018 E.C.">
             </div>
             <div class="form-group">
                 <label>Shift / Time</label>
@@ -203,7 +245,7 @@
             </div>
             <div class="form-group">
                 <label>Auditor Name & Title</label>
-                <input type="text" id="auditorName" placeholder="Write Name of Auditor (In-Charge)">
+                <input type="text" id="auditorName" placeholder="Write Name of Auditor">
             </div>
             <div class="form-group">
                 <label>Desk Supervisor</label>
@@ -217,14 +259,14 @@
             <table id="chemicalTable">
                 <thead>
                     <tr>
-                        <th>Item Description</th>
-                        <th style="width: 100px;">Unit</th>
-                        <th style="width: 90px;">Opening</th>
-                        <th style="width: 90px;">Received</th>
-                        <th style="width: 90px;">Consumed</th>
-                        <th style="width: 100px;">Balance</th>
-                        <th style="width: 90px;">Min Stock</th>
-                        <th>Condition / Expiry Check</th>
+                        <th style="min-width: 220px;">Item Description</th>
+                        <th style="min-width: 100px;">Unit</th>
+                        <th style="min-width: 110px;">Opening</th>
+                        <th style="min-width: 110px;">Received</th>
+                        <th style="min-width: 110px;">Consumed</th>
+                        <th style="min-width: 100px;">Balance</th>
+                        <th style="min-width: 110px;">Min Stock</th>
+                        <th style="min-width: 180px;">Condition / Expiry Check</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -284,12 +326,12 @@
             <table id="machineTable">
                 <thead>
                     <tr>
-                        <th>Machine ID / Equipment</th>
-                        <th>Model / Capacity</th>
-                        <th>Operational Status</th>
-                        <th>Cleanliness Status</th>
-                        <th>Maintenance Due</th>
-                        <th>Key Issues / Observations</th>
+                        <th style="min-width: 180px;">Machine ID / Equipment</th>
+                        <th style="min-width: 160px;">Model / Capacity</th>
+                        <th style="min-width: 160px;">Operational Status</th>
+                        <th style="min-width: 150px;">Cleanliness Status</th>
+                        <th style="min-width: 150px;">Maintenance Due</th>
+                        <th style="min-width: 220px;">Key Issues / Observations</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -323,23 +365,21 @@
             <table id="linenTable">
                 <thead>
                     <tr>
-                        <th>Linen Item Description</th>
-                        <th style="width: 80px;">Clean In-Stock</th>
-                        <th style="width: 80px;">In Wards</th>
-                        <th style="width: 80px;">Soiled / Laundry</th>
-                        <th style="width: 90px;">Total Physical</th>
-                        <th style="width: 80px;">Damaged</th>
-                        <th style="width: 80px;">Min Stock</th>
-                        <th>Status / Quality Notes</th>
+                        <th style="min-width: 200px;">Linen Item Description</th>
+                        <th style="min-width: 120px;">Clean In-Stock</th>
+                        <th style="min-width: 120px;">In Wards</th>
+                        <th style="min-width: 120px;">Total Physical</th>
+                        <th style="min-width: 110px;">Damaged</th>
+                        <th style="min-width: 110px;">Min Stock</th>
+                        <th style="min-width: 250px;">Status / Quality Notes</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td><strong> Bed Sheets</strong></td>
+                        <td><strong>Bed Sheets</strong></td>
                         <td><input type="number" class="l-clean" value="300" oninput="calcLinenTotal(this)"></td>
                         <td><input type="number" class="l-wards" value="450" oninput="calcLinenTotal(this)"></td>
-                        <td><input type="number" class="l-soiled" value="120" oninput="calcLinenTotal(this)"></td>
-                        <td><span class="calc-val l-total">870</span></td>
+                        <td><span class="calc-val l-total">750</span></td>
                         <td><input type="number" class="l-damaged" value="15"></td>
                         <td><input type="number" value="600"></td>
                         <td><input type="text" value="Adequate stock; 15 torn needing condemned status"></td>
@@ -348,19 +388,16 @@
                         <td><strong>Patient Pyjamas</strong></td>
                         <td><input type="number" class="l-clean" value="180" oninput="calcLinenTotal(this)"></td>
                         <td><input type="number" class="l-wards" value="220" oninput="calcLinenTotal(this)"></td>
-                        <td><input type="number" class="l-soiled" value="85" oninput="calcLinenTotal(this)"></td>
-                        <td><span class="calc-val l-total">485</span></td>
+                        <td><span class="calc-val l-total">400</span></td>
                         <td><input type="number" class="l-damaged" value="8"></td>
                         <td><input type="number" value="400"></td>
                         <td><input type="text" value="Good operational balance"></td>
                     </tr>
-                    
                     <tr>
                         <td><strong>Blankets</strong></td>
                         <td><input type="number" class="l-clean" value="110" oninput="calcLinenTotal(this)"></td>
                         <td><input type="number" class="l-wards" value="210" oninput="calcLinenTotal(this)"></td>
-                        <td><input type="number" class="l-soiled" value="30" oninput="calcLinenTotal(this)"></td>
-                        <td><span class="calc-val l-total">350</span></td>
+                        <td><span class="calc-val l-total">320</span></td>
                         <td><input type="number" class="l-damaged" value="4"></td>
                         <td><input type="number" value="300"></td>
                         <td><input type="text" value="Sufficient supply for ICU & Recovery"></td>
@@ -376,12 +413,13 @@
             <table id="discrepancyTable">
                 <thead>
                     <tr>
-                        <th style="width: 120px;">Category</th>
-                        <th>Identified Problem / Variance</th>
-                        <th>Root Cause Analysis</th>
-                        <th>Immediate Corrective Action</th>
-                        <th style="width: 150px;">Assigned Person</th>
-                        <th style="width: 130px;">Target Date</th>
+                        <th style="min-width: 130px;">Category</th>
+                        <th style="min-width: 220px;">Identified Problem / Variance</th>
+                        <th style="min-width: 220px;">Root Cause Analysis</th>
+                        <th style="min-width: 220px;">Immediate Corrective Action</th>
+                        <th style="min-width: 160px;">Assigned Person</th>
+                        <th style="min-width: 150px;">Target Date (G.C.)</th>
+                        <th style="min-width: 170px;">Target Date (E.C.)</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -397,7 +435,8 @@
                         <td><input type="text" value="Frequent usage wear and heavy bleach wash cycles"></td>
                         <td><input type="text" value="Move to condemned register & issue restocking requisition"></td>
                         <td><input type="text" value="Linen Room Lead"></td>
-                        <td><input type="date" value="2026-08-26"></td>
+                        <td><input type="date" class="disc-date-gc" value="2026-08-23" onchange="syncDiscrepancyECDate(this)"></td>
+                        <td><input type="text" class="disc-date-ec" value="17 Nehase 2018 E.C." placeholder="e.g., 20 Nahase 2018 E.C."></td>
                     </tr>
                     <tr>
                         <td>
@@ -411,7 +450,8 @@
                         <td><input type="text" value="Worn rubber seal gasket"></td>
                         <td><input type="text" value="Issued maintenance request ticket"></td>
                         <td><input type="text" value="Biomedical Team"></td>
-                        <td><input type="date" value="2026-08-25"></td>
+                        <td><input type="date" class="disc-date-gc" value="2026-08-25" onchange="syncDiscrepancyECDate(this)"></td>
+                        <td><input type="text" class="disc-date-ec" value="17 Nehase 2018 E.C." placeholder="e.g., 19 Nehase 2018 E.C."></td>
                     </tr>
                 </tbody>
             </table>
@@ -438,9 +478,8 @@
 </div>
 
 <script>
-    const ecMonths = ["Meskerem", "Tikimt", "Hidar", "Tahsas", "Tir", "Yekatit", "Megabit", "Miyazia", "Ginbot", "Sene", "Hamle", "Nahase", "Pagume"];
+    const ecMonths = ["Meskerem", "Tikimt", "Hidar", "Tahsas", "Tir", "Yekatit", "Megabit", "Miyazia", "Ginbot", "Sene", "Hamle", "Nehase", "Pagume"];
 
-    // Conversion helper from Gregorian Date to Ethiopian Calendar
     function convertGCToEC(gcDateStr) {
         if (!gcDateStr) return "";
         const date = new Date(gcDateStr);
@@ -485,7 +524,15 @@
         }
     }
 
-    // Real-time calculation for chemical balances
+    function syncDiscrepancyECDate(gcInputElem) {
+        const row = gcInputElem.closest('tr');
+        const ecInput = row.querySelector('.disc-date-ec');
+        const ecVal = convertGCToEC(gcInputElem.value);
+        if (ecInput && ecVal) {
+            ecInput.value = ecVal;
+        }
+    }
+
     function calcChemBalance(inputElem) {
         const row = inputElem.closest('tr');
         const opening = parseFloat(row.querySelector('.opening').value) || 0;
@@ -494,13 +541,11 @@
         row.querySelector('.balance').textContent = opening + received - consumed;
     }
 
-    // Real-time calculation for total physical linens
     function calcLinenTotal(inputElem) {
         const row = inputElem.closest('tr');
         const clean = parseFloat(row.querySelector('.l-clean').value) || 0;
         const wards = parseFloat(row.querySelector('.l-wards').value) || 0;
-        const soiled = parseFloat(row.querySelector('.l-soiled').value) || 0;
-        row.querySelector('.l-total').textContent = clean + wards + soiled;
+        row.querySelector('.l-total').textContent = clean + wards;
     }
 
     function addChemicalRow() {
@@ -558,7 +603,6 @@
             <td><input type="text" placeholder="Item description"></td>
             <td><input type="number" class="l-clean" value="0" oninput="calcLinenTotal(this)"></td>
             <td><input type="number" class="l-wards" value="0" oninput="calcLinenTotal(this)"></td>
-            <td><input type="number" class="l-soiled" value="0" oninput="calcLinenTotal(this)"></td>
             <td><span class="calc-val l-total">0</span></td>
             <td><input type="number" class="l-damaged" value="0"></td>
             <td><input type="number" value="0"></td>
@@ -582,19 +626,19 @@
             <td><input type="text" placeholder="Root cause"></td>
             <td><input type="text" placeholder="Action taken"></td>
             <td><input type="text" placeholder="Assigned staff"></td>
-            <td><input type="date"></td>
+            <td><input type="date" class="disc-date-gc" onchange="syncDiscrepancyECDate(this)"></td>
+            <td><input type="text" class="disc-date-ec" placeholder="e.g., 20 Nahase 2018 E.C."></td>
         `;
         tbody.appendChild(newRow);
     }
 
-    // Export Engine
     function exportToCSV() {
         let csv = [];
         csv.push("EKA KOTEBE HOSPITAL");
         csv.push("MEDICAL SERVICE FACILITATION DIRECTORATE - CLOTHING SUPPLY UTILIZATION AND QUALITY MONITORING DESK");
         csv.push("INVENTORY AUDIT OPERATIONAL TOOL: CHEMICALS, LAUNDRY MACHINES & LINENS");
-      csv.push("QUARTERLY INVENTORY AUDIT");
-      csv.push("");
+        csv.push("QUARTERLY INVENTORY AUDIT");
+        csv.push("");
         csv.push(`Audit Date (G.C.):,"${document.getElementById('auditDate').value}",Audit Date (E.C.):,"${document.getElementById('auditDateEC').value}",Shift / Time:,"${document.getElementById('auditShift').value}",Auditor Name:,"${document.getElementById('auditorName').value}",Supervisor Sign:,"${document.getElementById('supervisorName').value}"`);
         csv.push("");
 
@@ -622,25 +666,24 @@
         csv.push("");
 
         csv.push("SECTION 3: HOSPITAL LINEN & CIRCULATION INVENTORY AUDIT");
-        csv.push("Linen Item Description,Clean In-Stock,In Wards,Soiled / Laundry Process,Total Physical Stock,Damaged / Condemned, Min Stock,Status / Quality Notes");
+        csv.push("Linen Item Description,Clean In-Stock,In Wards,Total Physical Stock,Damaged / Condemned,Min Stock,Status / Quality Notes");
         document.querySelectorAll('#linenTable tbody tr').forEach(row => {
             const desc = row.cells[0].querySelector('strong') ? row.cells[0].querySelector('strong').innerText : row.cells[0].querySelector('input').value;
             const clean = row.querySelector('.l-clean').value;
             const wards = row.querySelector('.l-wards').value;
-            const soiled = row.querySelector('.l-soiled').value;
             const total = row.querySelector('.l-total').textContent;
             const damaged = row.querySelector('.l-damaged').value;
-            const min = row.cells[6].querySelector('input').value;
-            const notes = row.cells[7].querySelector('input').value;
-            csv.push(`"${desc}",${clean},${wards},${soiled},${total},${damaged},${min},"${notes}"`);
+            const min = row.cells[5].querySelector('input').value;
+            const notes = row.cells[6].querySelector('input').value;
+            csv.push(`"${desc}",${clean},${wards},${total},${damaged},${min},"${notes}"`);
         });
         csv.push("");
 
         csv.push("SECTION 4: DISCREPANCY & CORRECTIVE ACTION LOG");
-        csv.push("Category,Identified Problem / Variance,Root Cause Analysis,Immediate Corrective Action,Assigned Person,Target Date");
+        csv.push("Category,Identified Problem / Variance,Root Cause Analysis,Immediate Corrective Action,Assigned Person,Target Date (G.C.),Target Date (E.C.)");
         document.querySelectorAll('#discrepancyTable tbody tr').forEach(row => {
             const inputs = row.querySelectorAll('input, select');
-            csv.push(`"${inputs[0].value}","${inputs[1].value}","${inputs[2].value}","${inputs[3].value}","${inputs[4].value}","${inputs[5].value}"`);
+            csv.push(`"${inputs[0].value}","${inputs[1].value}","${inputs[2].value}","${inputs[3].value}","${inputs[4].value}","${inputs[5].value}","${inputs[6].value}"`);
         });
         csv.push("");
 
